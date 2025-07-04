@@ -259,7 +259,7 @@ class DobotApiDashboard(DobotApi):
         """
     Set digital signal output (Queue instruction)
     index : Digital output index (Value range:1~24)
-    status : Status of digital signal output port(0:Low level，1:High level
+    status : Status of digital signal output port(0:Low level, 1:High level
     """
         string = "DO({:d},{:d})".format(index, status)
         return self.sendRecvMsg(string)
@@ -323,7 +323,7 @@ class DobotApiDashboard(DobotApi):
     def RunScript(self, project_name):
         """
     Run the script file
-    project_name ：Script file name
+    project_name: Script file name
     """
         string = "RunScript({:s})".format(project_name)
         return self.sendRecvMsg(string)
@@ -414,6 +414,10 @@ class DobotApiDashboard(DobotApi):
 
     def SetArmOrientation(self, offset1):
         string = "SetArmOrientation({:d}".format(offset1) + ")"
+        return self.sendRecvMsg(string)
+    
+    def SetArmOrientation(self, offset1, offset2, offset3, offset4):
+        string = "SetArmOrientation({:d},{:d},{:d},{:d}".format(offset1, offset2, offset3, offset4) + ")"
         return self.sendRecvMsg(string)
 
     def SetPayload(self, offset1, *dynParams):
@@ -612,12 +616,12 @@ class DobotApiMove(DobotApi):
     y: A number in the Cartesian coordinate system y
     z: A number in the Cartesian coordinate system z
     r: A number in the Cartesian coordinate system r
-    *dynParams :Parameter Settings（Mode、Distance、Index、Status）
+    *dynParams :Parameter Settings(Mode、Distance、Index、Status)
                 Mode :Set Distance mode (0: Distance percentage; 1: distance from starting point or target point)
-                Distance :Runs the specified distance（If Mode is 0, the value ranges from 0 to 100；When Mode is 1, if the value is positive,
+                Distance :Runs the specified distance (If Mode is 0, the value ranges from 0 to 100;When Mode is 1, if the value is positive,
                          it indicates the distance from the starting point. If the value of Distance is negative, it represents the Distance from the target point）
-                Index ：Digital output index （Value range：1~24）
-                Status ：Digital output state（Value range：0/1）
+                Index :Digital output index (Value range:1~24)
+                Status :Digital output state(Value range:0/1)
     """
         # example： MovLIO(0,50,0,0,0,0,(0,50,1,0),(1,1,2,1))
         string = "MovLIO({:f},{:f},{:f},{:f}".format(
@@ -634,7 +638,7 @@ class DobotApiMove(DobotApi):
     y: A number in the Cartesian coordinate system y
     z: A number in the Cartesian coordinate system z
     r: A number in the Cartesian coordinate system r
-    *dynParams :Parameter Settings（Mode、Distance、Index、Status）
+    *dynParams :Parameter Settings(Mode、Distance、Index、Status)
                 Mode :Set Distance mode (0: Distance percentage; 1: distance from starting point or target point)
                 Distance :Runs the specified distance（If Mode is 0, the value ranges from 0 to 100；When Mode is 1, if the value is positive,
                          it indicates the distance from the starting point. If the value of Distance is negative, it represents the Distance from the target point）

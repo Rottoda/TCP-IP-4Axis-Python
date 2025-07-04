@@ -11,14 +11,14 @@ def connect_robot():
         dashboard_p = 29999
         move_p = 30003
         feed_p = 30004
-        print("正在建立连接...")
+        print("연결 중입니다...")
         dashboard = DobotApiDashboard(ip, dashboard_p)
         move = DobotApiMove(ip, move_p)
         feed = DobotApi(ip, feed_p)
-        print(">.<连接成功>!<")
+        print(">.<연결성공>!<")
         return dashboard, move, feed
     except Exception as e:
-        print(":(连接失败:(")
+        print(":(연결실패:(")
         raise e
 
 if __name__ == '__main__':
@@ -27,11 +27,11 @@ if __name__ == '__main__':
     """
     ************************************
     ************************************
-        if PARAMS  条件编译 指令是否有参数
-            0  指令不含参数
-            1   指令含参数
+        if PARAMS  조건부 컴파일 지시에 매개변수가 있는가?
+            0  지시문에 매개변수가 없습니다
+            1  지시문에 매개변수가 포함되어 있습니다
             
-        包括以下指令的例子：
+        다음 지시를 포함하는 예제：
             EnableRobot
             DisableRobot
             DO
@@ -52,19 +52,19 @@ if __name__ == '__main__':
     """
     ************************************
     ************************************
-     * 指令：EnableRobot
-     * 功能：使能机器人
+     * 지시:EnableRobot
+     * 성능:로봇 작동 허용
     """
     if PARAMS:
-      dashboard.EnableRobot()    #无参数
+      dashboard.EnableRobot()    #인자 없음
     else:
        load=0.1
-       centerX=0.1
+       centerX=100.1
        centerY=0.1
        centerZ=0.1
-       dashboard.EnableRobot(load)    #一个参数
+       dashboard.EnableRobot(load)    #하나의 인자
        
-       dashboard.EnableRobot(load, centerX, centerY, centerZ)    #四个参数
+       dashboard.EnableRobot(load, centerX, centerY, centerZ)    #4개 인자
   
     """
     ************************************
@@ -72,7 +72,7 @@ if __name__ == '__main__':
      * 指令：DisableRobotexit
      * 功能：下使能机器人
     """
-    dashboard.DisableRobot()    #无参数
+    dashboard.DisableRobot()    #인자 없음
      
      
     """
@@ -104,13 +104,15 @@ if __name__ == '__main__':
     """
     if PARAMS:
         LorR=1
-        dashboard.SetArmOrientation(LorR)    #1个参数
+        dashboard.SetArmOrientation(LorR)    #하나의 인자
     else:
         LorR=1
         UorD=1
         ForN=1
         Config=1
-        dashboard.SetArmOrientation(LorR, UorD, ForN, Config)    #4个参数
+        # orientation = f"{LorR},{UorD},{ForN},{Config}"
+        # dashboard.SetArmOrientation(orientation)
+        dashboard.SetArmOrientation(LorR, UorD, ForN, Config)    #4개의 매개변수
     
     
     """
@@ -134,7 +136,7 @@ if __name__ == '__main__':
     J4=0.1
     User=1
     Tool=1
-    dashboard.PositiveSolution(J1, J2, J3, J4,User, Tool)    #1个参数
+    dashboard.PositiveSolution(J1, J2, J3, J4,User, Tool)    #하나의 인자
 
      
     """
@@ -150,7 +152,7 @@ if __name__ == '__main__':
         J4=0.1
         User=1
         Tool=1
-        dashboard.InverseSolution(J1, J2, J3, J4,User, Tool)    #1个参数
+        dashboard.InverseSolution(J1, J2, J3, J4,User, Tool)    #하나의 인자
     else:
         J1=0.1
         J2=0.1
@@ -172,13 +174,13 @@ if __name__ == '__main__':
         ip="192.168.1.6"
         port=29999
         slave_id=1
-        dashboard.ModbusCreate(ip, port, slave_id)    #3个参数
+        dashboard.ModbusCreate(ip, port, slave_id)    #3개의 인자
     else:
         ip="192.168.1.6"
         port=29999
         slave_id=1
         isRTU=1
-        dashboard.ModbusCreate(ip, port, slave_id, isRTU)    #4个参数
+        dashboard.ModbusCreate(ip, port, slave_id, isRTU)    #4개의 인자
      
      
     """
@@ -191,13 +193,13 @@ if __name__ == '__main__':
         index=1
         addr=1
         count=1
-        dashboard.GetHoldRegs(index, addr, count)    #3个参数
+        dashboard.GetHoldRegs(index, addr, count)    #3개의 인자
     else:
         index=1
         addr=1
         count=1
         valType="valType"
-        dashboard.GetHoldRegs(index, addr, count, valType)    #4个参数    
+        dashboard.GetHoldRegs(index, addr, count, valType)    #4개의 인자    
      
     """
     ************************************
@@ -216,21 +218,21 @@ if __name__ == '__main__':
         value2=1
         index32=1
         value32=1
-        dashboard.DOGroup(index, value, index2, value2, index32, value32)    # 64个参数  (参数省略)
+        dashboard.DOGroup(index, value, index2, value2, index32, value32)    # 64개 인자 (일부 인자는 생략됨)
      
      
     """
     ************************************
     ************************************
-     * 指令： MovL
-     * 功能：功能：点到点运动，目标点位为笛卡尔点位
+     * 지령： MovL
+     * 기능: 포인트 투 포인트(PtP) 이동, 목표 위치는 데카르트 좌표계 기준 점입니다
     """
     if PARAMS:
         x=1.0
         y=1.0
         z=1.0
         r=1.0
-        move.MovL(x, y, z, r)    #无可选参数
+        move.MovL(x, y, z, r)    #선택 가능한 매개변수가 없습니다
     else:
         x=1.0
         y=1.0

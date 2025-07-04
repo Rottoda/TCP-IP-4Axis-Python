@@ -4,7 +4,7 @@ from time import sleep
 import numpy as np
 import re
 
-# 全局变量(当前坐标)
+# 전역 변수(현재 좌표)
 current_actual = None
 algorithm_queue = None
 enableStatus_robot = None
@@ -17,14 +17,14 @@ def ConnectRobot():
         dashboardPort = 29999
         movePort = 30003
         feedPort = 30004
-        print("正在建立连接...")
+        print("연결 중입니다...")
         dashboard = DobotApiDashboard(ip, dashboardPort)
         move = DobotApiMove(ip, movePort)
         feed = DobotApi(ip, feedPort)
-        print(">.<连接成功>!<")
+        print(">.<연결 성공>!<")
         return dashboard, move, feed
     except Exception as e:
-        print(":(连接失败:(")
+        print(":(연결 실패:(")
         raise e
 
 def RunPoint(move: DobotApiMove, point_list: list):
@@ -71,7 +71,7 @@ def WaitArrive(point_list):
 
 def ClearRobotError(dashboard: DobotApiDashboard):
     global robotErrorState
-    dataController,dataServo =alarmAlarmJsonFile()    # 读取控制器和伺服告警码
+    dataController,dataServo =alarmAlarmJsonFile()    # 컨트롤러와 서보 알람 코드를 읽는 중
     while True:
       globalLockValue.acquire()
       if robotErrorState:
@@ -82,23 +82,23 @@ def ClearRobotError(dashboard: DobotApiDashboard):
                     for i in numbers[1:]:
                       alarmState=False
                       if i==-2:
-                          print("机器告警 机器碰撞 ",i)
+                          print("기계 경고: 기계 충돌",i)
                           alarmState=True
                       if alarmState:
                           continue                
                       for item in dataController:
                         if  i==item["id"]:
-                            print("机器告警 Controller errorid",i,item["zh_CN"]["description"])
+                            print("기계 경고: Controller errorid",i,item["en"]["description"])
                             alarmState=True
                             break 
                       if alarmState:
                           continue
                       for item in dataServo:
                         if  i==item["id"]:
-                            print("机器告警 Servo errorid",i,item["zh_CN"]["description"])
+                            print("기계 경고: Servo errorid",i,item["en"]["description"])
                             break  
                        
-                    choose = input("输入1, 将清除错误, 机器继续运行: ")     
+                    choose = input("1을 입력하면 오류가 초기화되며, 기계가 계속 작동합니다: ")     
                     if  int(choose)==1:
                         dashboard.ClearError()
                         sleep(0.01)
@@ -112,18 +112,18 @@ def ClearRobotError(dashboard: DobotApiDashboard):
        
 if __name__ == '__main__':
     dashboard, move, feed = ConnectRobot()
-    print("开始使能...")
+    print("시작을 허용합니다....")
     dashboard.EnableRobot()
-    print("完成使能:)")
+    print("작동 허용 완료:)")
     feed_thread = threading.Thread(target=GetFeed, args=(feed,))
     feed_thread.setDaemon(True)
     feed_thread.start()
     feed_thread1 = threading.Thread(target=ClearRobotError, args=(dashboard,))
     feed_thread1.setDaemon(True)
     feed_thread1.start()
-    print("循环执行...")
-    point_a = [20, 280, -60, 200]
-    point_b = [160, 260, -30, 170]
+    print("반복실행...")
+    point_a = [330, -7.5, -15, 84]
+    point_b = [430, -7.5, -15, 84]
     while True:   
         RunPoint(move, point_a)
         WaitArrive(point_a)
